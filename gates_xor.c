@@ -50,7 +50,25 @@ sample xor_train[] = {
     {1,1,0},
 };
 
+sample or_train [] = {
+    {0,0,0},
+    {1,0,1},
+    {0,1,1},
+    {1,1,1},
+
+};
+
+sample and_train [] = {
+    {0,0,0},
+    {1,0,0},
+    {0,1,0},
+    {1,1,1},
+
+};
+
 sample *train = xor_train;
+// sample *train = or_train;
+// sample *train = and_train;
 // 样本数量
 size_t train_count = 4;
 
@@ -189,6 +207,7 @@ Xor learn(Xor m, Xor g, float rate)
 
 int main(int argc, char const *argv[])
 {
+    srand(0);
     Xor m = rand_xor();
     float eps = 1e-1;
     float rate = 1e-1;
@@ -202,7 +221,7 @@ int main(int argc, char const *argv[])
         m = learn(m,g,rate);
         /* code */
         if(i % 1000 == 0){
-            printf("iteration %zu cost = %f\n",i,cost(m));
+            // printf("iteration %zu cost = %f\n",i,cost(m));
         }
     }
     
@@ -218,6 +237,39 @@ int main(int argc, char const *argv[])
         }
         
     }
+    printf("------------------------\n");
+    printf("-------- OR neuron -------------\n");
+    for (size_t i = 0; i < 2; i++)
+    {
+        for (size_t j = 0; j < 2; j++)
+        {
+            printf("%zu | %zu = %f\n",i,j, sigmoidf(m.or_w1*i + m.or_w2 * j + m.or_b));
+        }
+        
+    }
+    
+    printf("-------- AND neuron -------------\n");
+    for (size_t i = 0; i < 2; i++)
+    {
+        for (size_t j = 0; j < 2; j++)
+        {
+            printf("%zu & %zu = %f\n",i,j, sigmoidf(m.and_w1*i + m.and_w2 * j + m.and_b));
+        }
+        
+    }
+    
+    
+    printf("-------- NAND neuron -------------\n");
+    for (size_t i = 0; i < 2; i++)
+    {
+        for (size_t j = 0; j < 2; j++)
+        {
+            printf("~(%zu & %zu) = %f\n",i,j, sigmoidf(m.nand_w1*i + m.nand_w2 * j + m.nand_b));
+        }
+        
+    }
+    
+    
     
     return 0;
 }
