@@ -42,12 +42,6 @@ float rand_float(void)
 ```
 
 ```c
-#include<stdio.h>
-#include<stdlib.h>
-#include<time.h>
-
-// 求导
-
 float train[][2] = {
     {0,0},
     {1,2},
@@ -56,6 +50,9 @@ float train[][2] = {
     {4,8},
 };
 
+```
+
+```c
 #define train_count sizeof(train)/sizeof(train[0])
 
 float cost(float w)
@@ -76,11 +73,16 @@ float cost(float w)
     result /= train_count;
     return result;
 }
+```
 
+```c
 float rand_float(void)
 {
     return (float) rand()/(float)RAND_MAX;
 }
+```
+
+```
 
 int main(int argc, char const *argv[])
 {
@@ -124,6 +126,42 @@ float sigmoidf(float x)
 ```c
 for(float x =-10.f; x <= 10.f; x += 1.0f){
     printf("%f => %f\n",x ,sigmoidf(x));
+}
+
+```
+
+### 前向传播
+```c
+float forward(float w1,float w2, float b){
+ for (size_t i = 0; i < 2; i++)
+    {
+        for (size_t j = 0; j < 2; j++)
+        {
+            printf("%zu | %zu = %f\n",i,j,sigmoidf(i  * w1 + j * w2 + b));
+        }
+        
+    }
+    
+}
+```
+
+
+### XOR
+
+```c
+int main(int argc, char const *argv[])
+{
+    
+    for (size_t x = 0; x < 2; x++)
+    {
+        for (size_t y = 0; y < 2; y++)
+        {
+            printf("%zu ^ %zu = %zu\n",x,y,(x|y)&(~(x&y)));
+        }
+        
+    }
+    
+    return 0;
 }
 
 ```
