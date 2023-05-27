@@ -165,3 +165,57 @@ int main(int argc, char const *argv[])
 }
 
 ```
+
+访问每一个元素的宏
+```c
+#define MAT_AT(m,i,j) m.es[(i)*(m).cols + (j)]
+```
+
+关于自定义引入
+
+```c
+#ifndef NN_MALLOC
+#include "stdlib.h"
+#define NN_MALLOC malloc
+#endif //NN_MALLOC
+```
+通过在 `nn.h` 头文件将 malloc 文件定义为宏，如果在引入该头文件的 c 文件可以自定义 NN_MALLOC 方法来替换现有 malloc 实现对方法的复写
+
+```c
+Mat mat_alloc(size_t rows, size_t cols)
+{
+    Mat m;
+    m.rows = rows;
+    m.cols = cols;
+    m.data = malloc(sizeof(*m.data)*rows*cols);
+    // if(m.data == NULL){
+    //     return ;
+    // }
+    return m; 
+}
+
+```
+通过 malloc 来为一个矩阵分配内存空间来保存数据，数据在内存中是连续存储的，rows 和 cols 只是告诉我们应该以什么样的视角来看数据，也就是如何读取数据
+
+#### 实现打印矩阵方法
+```c
+void mat_print(Mat m)
+{
+    for (size_t i = 0; i < m.rows; i++)
+    {
+        for (size_t j = 0; j < m.cols; j++)
+        {
+            printf("%f ",m.data[i *m.cols + j]);
+        }
+
+        printf("\n");
+    }
+    
+}
+```
+
+定义一个宏来替换 `m.data[i *m.cols + j]`
+```c
+#define MAT_AT(m,i,j) (m).data[(i)*(m).cols + (j)]
+
+```
