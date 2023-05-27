@@ -15,6 +15,8 @@
 #define NN_ASSERT assert
 #endif //NN_ASSERT
 
+#include<math.h>
+
 // x86_64 Linux
 
 // float d[] ={
@@ -38,7 +40,8 @@ typedef struct
 } Mat;
 
 #define MAT_AT(m,i,j) m.es[(i)*(m).cols + (j)]
-
+float rand_float(void);
+float sigmoidf(float x);
 // 通过 malloc 初始化一个 Matrix
 Mat mat_alloc(size_t rows, size_t cols);
 // 获取随机数
@@ -49,9 +52,10 @@ void mat_rand(Mat m,float low, float high);
 void mat_dot(Mat dst, Mat a, Mat b);
 // dst = dst + a 矩阵
 void mat_sum(Mat dst, Mat a);
+void mat_sig(Mat m);
 void mat_fill(Mat m, float x);
-void mat_print(Mat m);
-
+void mat_print(Mat m,const char *name);
+#define MAT_PRINT(m) mat_print(m,#m)
 
 #endif //NN_H_
 #ifdef NN_IMPLEMENTATION
@@ -59,6 +63,11 @@ void mat_print(Mat m);
 float rand_float(void)
 {
     return (float) rand()/(float)RAND_MAX;
+}
+// 1 / (1 + epx(x))
+float sigmoidf(float x)
+{
+    return 1.f /(1.f + expf(-x));
 }
 
 Mat mat_alloc(size_t rows, size_t cols)
@@ -78,6 +87,20 @@ void mat_fill(Mat m, float x)
         for (size_t j = 0; j < m.cols; j++)
         {
             MAT_AT(m,i,j) = x;
+        }
+        
+    }
+    
+}
+
+
+void mat_sig(Mat m)
+{
+    for (size_t i = 0; i < m.rows; i++)
+    {
+        for (size_t j = 0; j < m.cols; j++)
+        {
+            MAT_AT(m,i,j) = sigmoidf(MAT_AT(m,i,j));
         }
         
     }
@@ -124,15 +147,18 @@ void mat_sum(Mat dst, Mat a)
 }
 
 
-void mat_print(Mat m){
+void mat_print(Mat m, const char* name){
+
+    printf("%s = [\n ",name);
     for (size_t i = 0; i < m.rows; i++)
     {
         for (size_t j = 0; j < m.cols; j++)
         {
-            printf("%f ",MAT_AT(m,i,j));
+            printf("    %f ",MAT_AT(m,i,j));
         }
         printf("\n");
     }
+    printf("]\n");
 }
 
 

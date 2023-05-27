@@ -219,3 +219,14 @@ void mat_print(Mat m)
 #define MAT_AT(m,i,j) (m).data[(i)*(m).cols + (j)]
 
 ```
+
+```c
+
+#define MAT_PRINT(m) mat_print(m,#m)
+
+    MAT_PRINT(w1);
+    MAT_PRINT(b1);
+    MAT_PRINT(w2);
+    MAT_PRINT(b2);
+
+```
