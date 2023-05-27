@@ -13,13 +13,22 @@ int main(int argc, char const *argv[])
 {   
 
     srand(time(0));
+    Mat a = mat_alloc(1,2);
+    mat_rand(a,5,10);
 
-    Mat a = mat_alloc(2,3);
-    Mat b = mat_alloc(3,2);
-    Mat m = mat_alloc(2,2);
 
-    mat_rand(a,0,1);
-    mat_rand(b,0,2);
+    float id_data[4] = {
+        1,0,
+        0,1,
+    };
+
+    Mat b = {
+        .rows = 2,
+        .cols = 2,
+        .es = id_data
+    };
+    Mat m = mat_alloc(1,2);
+
     mat_print(a);
     mat_print(b);
     printf("-----------------------\n");

@@ -84,6 +84,7 @@ void mat_fill(Mat m, float x)
     
 }
 
+// grid/block/thread threadIdx 
 
 void mat_dot(Mat dst, Mat a, Mat b){
     assert(a.cols == b.rows);
