@@ -78,8 +78,20 @@ int main(int argc, char const *argv[])
     Mat ti = {
         .rows = n,
         .cols = 2,
-        .stride = stride
+        .stride = stride,
+        .es = td
     };
+
+    Mat to = {
+        .rows = n,
+        .cols = 1,
+        .stride = stride,
+        .es = td + 2,
+    };
+
+    MAT_PRINT(ti);
+    MAT_PRINT(to);
+
     
     //定义模型
     Xor model;
