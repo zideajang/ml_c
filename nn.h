@@ -39,7 +39,7 @@ typedef struct
     size_t stride;
     float *es;
 } Mat;
-
+// {1,2,3,4,5,6}
 #define MAT_AT(m,i,j) m.es[(i)*(m).stride + (j)]
 float rand_float(void);
 float sigmoidf(float x);
@@ -99,6 +99,7 @@ void mat_fill(Mat m, float x)
     }
     
 }
+// flaot m[] = {1,2,3,4,5,6}
 
 Mat mat_row(Mat m,size_t row)
 {
@@ -177,7 +178,7 @@ void mat_sum(Mat dst, Mat a)
 
 void mat_print(Mat m, const char* name){
 
-    printf("%s = [\n ",name);
+    printf("%s = [\n",name);
     for (size_t i = 0; i < m.rows; i++)
     {
         for (size_t j = 0; j < m.cols; j++)
